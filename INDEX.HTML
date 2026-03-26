@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>S Blesscy | Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        header {
+            background: #0a192f;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        header p {
+            color: #64ffda;
+        }
+
+        section {
+            padding: 40px 10%;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            border-bottom: 3px solid #64ffda;
+            display: inline-block;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .contact input,
+        .contact textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            background: #0a192f;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #64ffda;
+            color: #0a192f;
+        }
+
+        #successMsg {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #0a192f;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>S Blesscy</h1>
+    <p>BCA Student | Aspiring Data Analyst</p>
+</header>
+
+<section>
+    <h2>About Me</h2>
+    <div class="card">
+        <p>
+            I am a BCA student passionate about becoming a Data Analyst.
+            I enjoy learning new technologies and building real-world projects.
+        </p>
+    </div>
+</section>
+
+<section>
+    <h2>Skills</h2>
+    <div class="card">
+        <ul>
+            <li>Python, C, C++, Java</li>
+            <li>HTML, CSS, JavaScript</li>
+            <li>MongoDB, MySQL</li>
+            <li>Git, MS Office</li>
+        </ul>
+    </div>
+</section>
+
+<section>
+    <h2>Contact Me</h2>
+    <div class="card contact">
+
+        <form id="contactForm">
+            <input type="text" name="name" placeholder="Enter your name" required>
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <textarea name="message" rows="5" placeholder="Enter your message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <p id="successMsg"></p>
+
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 S Blesscy</p>
+</footer>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const data = {
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+    };
+
+    try {
+        const response = await fetch("http://localhost:5000/api/contact", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        document.getElementById("successMsg").innerText = result.message;
+        document.getElementById("successMsg").style.color = "green";
+
+        form.reset();
+
+    } catch (error) {
+        document.getElementById("successMsg").innerText = "Error sending message ❌";
+        document.getElementById("successMsg").style.color = "red";
+    }
+});
+</script>
+
+</body>
+</html>
